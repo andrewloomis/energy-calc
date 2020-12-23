@@ -1,0 +1,29 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>Home.qml</file>
+        <file>res/plus.png</file>
+        <file>res/right-arrow.png</file>
+        <file>res/remove.png</file>
+        <file>res/new.png</file>
+        <file>NewGroupPopup.qml</file>
+        <file>buttons/AddButton.qml</file>
+        <file>buttons/CloseButton.qml</file>
+        <file>buttons/NewButton.qml</file>
+        <file>editor/EditorComboOption.qml</file>
+        <file>editor/EditorTextInput.qml</file>
+        <file>SystemView/RightArrow.qml</file>
+        <file>SystemView/SystemView.qml</file>
+        <file>text/LabelText.qml</file>
+        <file>text/TitleText.qml</file>
+        <file>InputsPage/InputsPage.qml</file>
+        <file>ComponentsPage/ComponentsPage.qml</file>
+        <file>ComponentsPage/GroupPane.qml</file>
+        <file>ComponentsPage/ComponentsColumn.qml</file>
+        <file>ComponentsPage/ComponentEditor.qml</file>
+        <file>ComponentsPage/StatePane.qml</file>
+        <file>buttons/StyledTextButton.qml</file>
+        <file>NewDesignPopup.qml</file>
+    </qresource>
+</RCC>
