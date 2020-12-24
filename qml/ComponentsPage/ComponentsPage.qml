@@ -18,7 +18,8 @@ Pane {
             model: componentManager.groups
             delegate: GroupPane {
                 Layout.alignment: Qt.AlignCenter
-                componentGroup: group
+                groupName: name
+                groupComponentModel: componentModel
                 onRemoveGroup: {
                     componentManager.groups.removeGroup(index)
                 }

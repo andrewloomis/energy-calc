@@ -2,15 +2,15 @@ import QtQuick 2.0
 import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.12
 import QtQuick.Layouts 1.12
-import energycalc.component_state 1.0
+import energycalc.state_model 1.0
 import "../"
 import "../editor/"
 import "../text/"
 import "../buttons/"
 
 Pane {
-    property string name
-    property real current
+    property string componentName
+    property StateModel componentStateModel
 
     signal remove()
 
@@ -19,13 +19,9 @@ Pane {
         anchors.fill: parent
         RowLayout {
             Layout.fillWidth: true
-            EditorTextInput {
-                id: stateNameInput
-//                text: name
-                placeholderText: "State Name"
-                onTextChanged: {
-                    name = text
-                }
+            LabelText {
+                text: componentName
+//                Layout.alignment: Qt.AlignLeft
             }
             CloseButton {
                 Layout.margins: -15
@@ -36,14 +32,18 @@ Pane {
             }
         }
 
-        EditorTextInput {
-            id: supplyCurrentInput
-//            text: current
-            placeholderText: "Current [mA]"
-            validator: DoubleValidator { bottom: 0 }
-            onTextChanged: {
-                current = parseFloat(text)
+        Repeater {
+            model: componentStateModel
+            delegate: LabelText {
+                text: name
+                Layout.alignment: Qt.AlignLeft
             }
         }
+//        ColumnLayout {
+//            Layout.fillWidth: true
+
+
+
+//        }
     }
 }

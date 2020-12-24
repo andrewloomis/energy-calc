@@ -11,8 +11,11 @@ int main(int argc, char *argv[])
 
     DesignManager::registerQmlType();
     ComponentManager::registerQmlType();
-    ComponentGroup::registerQmlType();
+//    ComponentGroup::registerQmlType();
     StateModel::registerQmlType();
+//    EnergyComponent::registerQmlType();
+    ComponentState::registerQmlType();
+    ComponentModel::registerQmlType();
 
     QGuiApplication app(argc, argv);
 

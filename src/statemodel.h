@@ -5,14 +5,22 @@
 #include <QQmlEngine>
 #include "component_state.h"
 
+using ComponentStateList = QList<QPointer<ComponentState>>;
+
 class StateModel : public QAbstractListModel
 {
     Q_OBJECT
 public:
     StateModel(QObject* parent = nullptr)
         : QAbstractListModel(parent) {}
+    StateModel(const ComponentStateList& states,
+               QObject* parent = nullptr)
+        : QAbstractListModel(parent)
+    {
+        for(const auto& state : states) addState(state);
+    }
 
-    void addState(const ComponentState& state)
+    void addState(QPointer<ComponentState> state)
     {
         auto endOfRows = rowCount();
         beginInsertRows(QModelIndex(), endOfRows, endOfRows);
@@ -21,7 +29,15 @@ public:
     }
     Q_INVOKABLE void addNewEditorState()
     {
-        addState({"",0});
+        addState(new ComponentState{"",0,this});
+    }
+    Q_INVOKABLE void editStateName(int index, const QString& name)
+    {
+        elements[index]->setName(name);
+    }
+    Q_INVOKABLE void editStateCurrent(int index, double current)
+    {
+        elements[index]->setCurrent(current);
     }
 
     Q_INVOKABLE void removeState(int index)
@@ -29,6 +45,11 @@ public:
         beginRemoveRows(QModelIndex(), index, index);
         elements.removeAt(index);
         endRemoveRows();
+    }
+
+    const ComponentStateList& states() const
+    {
+        return elements;
     }
 
     enum Roles
@@ -51,9 +72,9 @@ public:
         auto row = index.row();
         switch (role) {
         case Name:
-            return elements[row].name();
+            return elements[row]->name();
         case Current:
-            return elements[row].current();
+            return elements[row]->current();
         default:
             return -1;
         }
@@ -78,7 +99,7 @@ public:
     }
 
 private:
-    QList<ComponentState> elements;
+    ComponentStateList elements;
 };
 
 #endif // COMPONENT_SELECTION_MODEL_H

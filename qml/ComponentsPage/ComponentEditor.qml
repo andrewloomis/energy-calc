@@ -10,7 +10,7 @@ import "../editor/"
 
 Popup {
     property var powerSupplies
-    signal addComponent(string name, int quantity)
+    signal addComponent(string name, int quantity, var stateModel)
 
     id: popup
     parent: Overlay.overlay
@@ -40,8 +40,6 @@ Popup {
         }
         else return false
     }
-
-
 
     ColumnLayout {
         anchors.fill: parent
@@ -94,8 +92,14 @@ Popup {
                     model: stateModel
                     delegate: StatePane {
                         width: scrollView.width
-                        onClose: {
+                        onRemove: {
                             stateModel.removeState(index)
+                        }
+                        onNameChanged: {
+                            stateModel.editStateName(index,name)
+                        }
+                        onCurrentChanged: {
+                            stateModel.editStateCurrent(index,current)
                         }
                     }
                 }
@@ -128,7 +132,8 @@ Popup {
                 onPressed: {
                     if(isFilledOut())
                     {
-                        addComponent(nameInput.text, parseInt(quantityInput.text))
+                        addComponent(nameInput.text, parseInt(quantityInput.text),
+                                     stateModel)
                     }
                     else notCompleteMessage.open()
                 }

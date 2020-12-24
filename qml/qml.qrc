@@ -25,5 +25,6 @@
         <file>ComponentsPage/StatePane.qml</file>
         <file>buttons/StyledTextButton.qml</file>
         <file>NewDesignPopup.qml</file>
+        <file>ComponentsPage/ComponentPane.qml</file>
     </qresource>
 </RCC>

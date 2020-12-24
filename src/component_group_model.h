@@ -32,14 +32,14 @@ public:
     enum Roles
     {
         Name = Qt::UserRole + 1,
-        Group
+        ComponentModel
     };
 
     QHash<int, QByteArray> roleNames() const override
     {
         QHash<int, QByteArray> roles;
         roles[Name] = "name";
-        roles[Group] = "group";
+        roles[ComponentModel] = "componentModel";
 
         return roles;
     }
@@ -50,8 +50,8 @@ public:
         switch (role) {
         case Name:
             return elements[row]->name();
-        case Group:
-            return QVariant::fromValue(elements[row].data());
+        case ComponentModel:
+            return QVariant::fromValue(elements[row]->componentModel());
         default:
             return -1;
         }

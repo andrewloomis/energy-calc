@@ -8,24 +8,23 @@
 class ComponentGroup : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString name READ name)
-    Q_PROPERTY(QAbstractListModel* componentModel READ componentModel)
+//    Q_PROPERTY(QString name READ name)
+//    Q_PROPERTY(QAbstractListModel* componentModel READ componentModel)
 
 public:
     ComponentGroup(const QString& name,
                             QObject *parent = nullptr);
-//    Q_INVOKABLE void addComponent();
     QString name() const { return m_name; }
 
     ComponentModel* componentModel() {
         return &m_components;
     }
 
-    static void registerQmlType()
-    {
-        qmlRegisterUncreatableType<ComponentGroup>
-                ("energycalc.component_group", 1, 0, "ComponentGroup","");
-    }
+//    static void registerQmlType()
+//    {
+//        qmlRegisterUncreatableType<ComponentGroup>
+//                ("energycalc.component_group", 1, 0, "ComponentGroup","");
+//    }
 
 signals:
 

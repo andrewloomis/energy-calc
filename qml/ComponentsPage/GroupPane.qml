@@ -2,13 +2,15 @@ import QtQuick 2.0
 import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.12
 import QtQuick.Layouts 1.12
-import energycalc.component_group 1.0
+import energycalc.component_model 1.0
 import "../text"
 import "../buttons"
 
 Rectangle {
     id: pane
-    property ComponentGroup componentGroup
+    property string groupName
+    property ComponentModel groupComponentModel
+
     signal removeGroup()
 
     color: "#524438"
@@ -27,7 +29,7 @@ Rectangle {
         anchors.margins: 5
         anchors.top: parent.top
         anchors.left: parent.left
-        text: componentGroup.name
+        text: groupName
     }
 
     CloseButton {
@@ -45,7 +47,7 @@ Rectangle {
         anchors.margins: 2
         anchors.topMargin: title.contentHeight*1.5
         anchors.fill: parent
-        color: Material.backgroundColor
+        color: "#4f4f4f"
 
         ColumnLayout {
             anchors.fill: parent
@@ -56,6 +58,7 @@ Rectangle {
                 Layout.fillWidth: true
                 position: TabBar.Header
                 Material.accent: "#FF9800"
+                Material.background: "#4f4f4f"
 
                 Repeater {
                     model: ["Components","Stats"]
@@ -72,8 +75,7 @@ Rectangle {
                 currentIndex: bar.currentIndex
 
                 ComponentsColumn {
-                    compGroup: componentGroup
-//                    componentGroup: pane.componentGroup
+                    componentModel: groupComponentModel
                 }
             }
         }

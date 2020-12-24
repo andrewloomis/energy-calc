@@ -1,14 +1,14 @@
 import QtQuick 2.0
 import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.12
-import energycalc.component_group 1.0
+import energycalc.component_model 1.0
 import "../"
 import "../text/"
 import "../buttons/"
 
 ScrollView {
     id: scrollView
-    property ComponentGroup compGroup
+    property ComponentModel componentModel
 
     Layout.fillHeight: true
     Layout.fillWidth: true
@@ -24,11 +24,13 @@ ScrollView {
             Layout.preferredWidth: scrollView.width
             spacing: 10
 
-            model: compGroup.componentModel
-            delegate: StatePane {
+            model: componentModel
+            delegate: ComponentPane {
+                componentName: name
+                componentStateModel: stateModel
                 width: scrollView.width
-                onClose: {
-                    editor.stateModel.removeState(index)
+                onRemove: {
+                    componentModel.removeComponent(index)
                 }
             }
         }
@@ -43,8 +45,8 @@ ScrollView {
     ComponentEditor {
         id: editor
         powerSupplies: ["3.3V"]
-//            onAddComponent: {
-//                compGroup.componentModel.addComponent(name, quantity)
-//            }
+        onAddComponent: {
+            componentModel.addComponent(name, quantity,stateModel)
+        }
     }
 }

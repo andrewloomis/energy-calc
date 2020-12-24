@@ -11,18 +11,22 @@ public:
     ComponentModel(QObject* parent = nullptr)
         : QAbstractListModel(parent) {}
 
-    void addComponent(const EnergyComponent& comp)
+//    void addComponent(QPointer<EnergyComponent> comp)
+//    {
+//        auto endOfRows = rowCount();
+//        beginInsertRows(QModelIndex(), endOfRows, endOfRows);
+//        elements.append(comp);
+//        endInsertRows();
+//    }
+
+    Q_INVOKABLE void addComponent(const QString& name,
+                                  int quantity,
+                                  StateModel* stateModel)
     {
         auto endOfRows = rowCount();
         beginInsertRows(QModelIndex(), endOfRows, endOfRows);
-        elements.append(comp);
+        elements.append(new EnergyComponent(name,quantity,stateModel->states()));
         endInsertRows();
-    }
-
-    Q_INVOKABLE void addComponent(const QString& name,
-                                  int quantity)
-    {
-
     }
 
     Q_INVOKABLE void removeComponent(int index)
@@ -35,13 +39,14 @@ public:
     enum Roles
     {
         Name = Qt::UserRole + 1,
-        Current
+        _StateModel
     };
 
     QHash<int, QByteArray> roleNames() const override
     {
         QHash<int, QByteArray> roles;
         roles[Name] = "name";
+        roles[_StateModel] = "stateModel";
 
         return roles;
     }
@@ -51,7 +56,9 @@ public:
         auto row = index.row();
         switch (role) {
         case Name:
-            return elements[row].name();
+            return elements[row]->name();
+        case _StateModel:
+            return QVariant::fromValue(elements[row]->stateModel());
         default:
             return -1;
         }
@@ -61,10 +68,15 @@ public:
     {
         return elements.size();
     }
-//    int currentDialogIndex() const { return (rowCount() - 1); }
+
+    static void registerQmlType()
+    {
+        qmlRegisterUncreatableType<ComponentModel>
+                ("energycalc.component_model", 1, 0, "ComponentModel","");
+    }
 
 private:
-    QList<EnergyComponent> elements;
+    QList<QPointer<EnergyComponent>> elements;
 };
 
 #endif // COMPONENT_SELECTION_MODEL_H
